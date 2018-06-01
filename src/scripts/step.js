@@ -5,6 +5,16 @@ import {checkCollision} from './checkCollision';
 //Movement intent variables
 let _vx = 0;
 let _vy = 0;
+let player_speed = 1;
+let timer = 0;
+let state = "IDLE";
+
+//Input variables;
+
+let up = false;
+let down = false;
+let left = false;
+let right = false;
 
 /// Room declarer
 
@@ -30,14 +40,18 @@ let _vy = 0;
 
 /// State model;
 
+// Initialize scripts and variables;
+init_game();
+var global.action = "DEFAULT";
+var global.gamestate = "IDLE";
+var global.story = 0;
+var global.timer = 0;
+
 //anim_speed = 0.2;
 
 switch (state) {
     case "IDLE": {
         global.gamestate = "TAPTIMER";
-//        if(global.gamestate != "TAPTIMER") {
-//            global.print = "Tap here for actions."
-//        };
         vx = 0;
         vy = 0;
         check_inputs_all();
@@ -78,5 +92,10 @@ switch (state) {
     }
 }
 
-//x += vx;
-//y += vy;
+/// Gamestate management
+
+//Move view frame towards player, in 64 x 64 blocks.
+target_xview = (obj_player.x div 64) * 64;
+target_yview = (obj_player.y div 64) * 64;
+view_xview[0] = move_toward(view_xview[0], target_xview, 4);
+view_yview[0] = move_toward(view_yview[0], target_yview, 4);
