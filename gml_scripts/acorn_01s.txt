@@ -1,0 +1,10 @@
+///Acorn(Level, Style)
+//
+//
+var level = 0;
+if (level == 1) {
+    print = 
+        "***Welcome to Level 01***"
+        
+
+} ;
