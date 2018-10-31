@@ -1,21 +1,25 @@
 const Koa = require('koa');
-const path = require('path');
-const index = require('./view/index.html');
 const app = new Koa();
+const serve = require('koa-static');
+const router = require('koa-router');
 
-const main = ctx => {
-    ctx.response.type = 'html';
-    ctx.response.body = fs.createReadStream('./views/index.html');
-};
+const fs = require('fs');
 
-app.use(main);
-
-if (process.env.NODE_ENV === 'test') {
-  module.exports = app.callback();
-} else {
-  app.listen(3000);
-  console.log('open http://localhost:3000');
+var readFileThunk = function(src) {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(src, {'encoding': 'utf8'}, function (err, data) {
+      if(err) return reject(err);
+      resolve(data);
+    });
+  });
 }
+
+app.use(async ctx => {
+  ctx.body = readFileThunk;
+});
+
+app.listen(3000);
+console.log('open http://localhost:3000');
 
 app.on('error', function (err) {
   console.log(err.stack);

@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/kevincart/logOfTheAndal#readme",
   "dependencies": {
-    "koa": "^2.6.1"
+    "koa": "^2.6.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0"
   }
 }
