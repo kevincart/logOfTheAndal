@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Log of the Andal - Kevin Cartwright</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html {
+      background-color: grey;
+    }
+    #sprite {
+      position: absolute;
+      color: #fc0;
+      left: 100px;
+      top: 100px;
+    }
+    .controls {
+      position: absolute;
+      color: blue;
+      font-size: 20px;
+      font-weight: bolder;
+      left: 27px;
+      top: 460px;
+    }
+    .Y {
+      transform: rotate(90deg);
+      left: 49px;
+      top: 416px;
+    }
+    #level_area {
+      color: #aaa;
+      position: absolute;
+      left: 64px;
+      top: 55px;
+    }
+  </style>
+</head>
+<body>
+  <!-- SVG GRAPHICS HERE -->
+    <svg width="480" height="480" style="fill:rgb(85,85,85);stroke-width:3;stroke:rgb(0,0,0)" viewBox="0 0 120 120">
+      <rect x="10" y="10" width="86" height="86" rx="4" ry="4" color="white"/>
+    </svg>
+  <div class="sprite" id="sprite">@</div>
+  <div class="controls X" id="controlsX">
+    <pre>
+      <  ✜  >
+    </pre>
+  </div>
+  <div class="controls Y" id="controlsY">
+    <pre>
+      <  ✜  >
+    </pre>
+  </div>
+<div id="level_area">
+</div>
+  <script id="game_engine">
+    var game = {};
+    var input = {};
+    var playerObj = document.getElementById("sprite");
+
+    function getInput(e) {
+      var keyVar = e.key;
+
+      if (keyVar == "w") {
+        input.up = true;
+        move(0, -10, input.up);
+      }
+      if (keyVar == "a") {
+        input.left = true;
+        move(-10, 0, input.left);
+      }
+      if (keyVar == "d") {
+        input.right = true;
+        move(10, 0, input.right);
+      }
+      if (keyVar == "s") {
+        input.down = true;
+        move(0, 10, move.down);
+      }
+
+    }
+
+    function move(dirX, dirY, key) {
+      var edgeCollision = false;
+      var wallCollision = false;
+      var currentLeft = playerObj.offsetLeft;
+      var currentTop = playerObj.offsetTop;
+      var newLeft = currentLeft + dirX;
+      var newTop = currentTop + dirY;
+
+      edgeCollision = checkEdgeCollision(newLeft, newTop);
+      wallCollision = checkLvlCollision(newLeft, newTop);
+
+      if (!edgeCollision && !wallCollision) {var newPosx = newLeft}
+      if (!edgeCollision && !wallCollision) {var newPosy = newTop}
+      playerObj.style.left = newPosx + "px";
+      playerObj.style.top = newPosy + "px";
+      key = false;
+    }
+
+    function checkEdgeCollision (colValLeft, colValTop) {
+        if (colValLeft <= 60 | colValLeft >= 370 | colValTop <= 50 | colValTop >= 370) { return true };
+    }
+
+    function checkLvlCollision(colValLeft, colValTop) {
+      const sprite = document.getElementById("sprite");
+      const wall = document.getElementById("level_area");
+
+      if ((colValLeft <= 50 | colValLeft >= 370 | colValTop <= 50 | colValTop >= 370) ||
+            (document.elementFromPoint(colValLeft, colValTop) == wall)){
+        return true;
+      };
+    }
+    //Assign event handlers
+    document.addEventListener("keypress", getInput);
+  </script>
+  <script src="lvl_data.js"></script>
+  <script id="level_render">
+    console.log(lvl);
+
+    function renderLevel(render_lvl) {
+      var e = document.getElementById("level_area");
+      e.innerHTML = render_lvl;
+    }
+    renderLevel(lvl.raw);
+  </script>
+</body>
+</html>
