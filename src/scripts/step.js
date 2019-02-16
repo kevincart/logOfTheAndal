@@ -42,10 +42,12 @@ let right = false;
 
 // Initialize scripts and variables;
 init_game();
-var global.action = "DEFAULT";
-var global.gamestate = "IDLE";
-var global.story = 0;
-var global.timer = 0;
+const global = {};
+
+global.action = "DEFAULT";
+global.gamestate = "IDLE";
+global.story = 0;
+global.timer = 0;
 
 //anim_speed = 0.2;
 
@@ -95,7 +97,7 @@ switch (state) {
 /// Gamestate management
 
 //Move view frame towards player, in 64 x 64 blocks.
-target_xview = (obj_player.x div 64) * 64;
-target_yview = (obj_player.y div 64) * 64;
+target_xview = (obj_player.x, div, 64) * 64;
+target_yview = (obj_player.y, div ,64) * 64;
 view_xview[0] = move_toward(view_xview[0], target_xview, 4);
 view_yview[0] = move_toward(view_yview[0], target_yview, 4);
